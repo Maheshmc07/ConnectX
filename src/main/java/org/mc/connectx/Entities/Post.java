@@ -1,13 +1,17 @@
 package org.mc.connectx.Entities;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 @Entity
-@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class Post {
 
     @Id
@@ -31,7 +35,7 @@ public class Post {
    private boolean isPost;
 
 
-   private Date PostedAt;
+    private LocalDateTime postedAt;
 
 
 

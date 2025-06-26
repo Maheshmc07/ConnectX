@@ -4,6 +4,7 @@ import org.mc.connectx.DTO.AuthRequest;
 import org.mc.connectx.DTO.AuthResponse;
 import org.mc.connectx.DTO.UserDTO;
 import org.mc.connectx.Entities.User;
+import org.mc.connectx.Exception.UserException;
 import org.mc.connectx.JWT.JwtUtility;
 import org.mc.connectx.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,13 +48,10 @@ public JwtUtility jwtutil;
 
 
     @PostMapping("/Login")
-    public ResponseEntity<AuthResponse> AuthRequest(@RequestBody AuthRequest authRequest) {
+    public ResponseEntity<AuthResponse> AuthRequest(@RequestBody AuthRequest authRequest) throws UserException {
 
 
-        String username = authRequest.getUsername();
-        String password = authRequest.getPassword();
-        System.out.println(username);
-        System.out.println(password);
+
 String Token ="";
 
         try {
@@ -63,7 +61,7 @@ String Token ="";
             Token = jwtutil.generateToken(authRequest);
 
         } catch (Exception e) {
-            throw new RuntimeException("Invalid username or password");
+            throw new UserException("User Not Found");
 
         }
 
