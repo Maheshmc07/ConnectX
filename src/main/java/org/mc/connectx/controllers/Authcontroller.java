@@ -2,6 +2,7 @@ package org.mc.connectx.controllers;
 
 import org.mc.connectx.DTO.AuthRequest;
 import org.mc.connectx.DTO.AuthResponse;
+import org.mc.connectx.DTO.UserBasicDetails;
 import org.mc.connectx.DTO.UserDTO;
 import org.mc.connectx.Entities.User;
 import org.mc.connectx.Exception.UserException;
@@ -36,12 +37,14 @@ public JwtUtility jwtutil;
     private UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody UserDTO userDTO){
+    public ResponseEntity<UserDTO> register(@RequestBody UserBasicDetails userBasicDetails){
 
-        User user=userService.CreateUser(userDTO);
+        User user=userService.CreateUser(userBasicDetails);
+        UserDTO userDTO=userService.convertUser_UserDTO(user);
 
 
-        return  new ResponseEntity<>(user,HttpStatus.CREATED);
+
+        return  new ResponseEntity<>(userDTO,HttpStatus.CREATED);
 
 
     }

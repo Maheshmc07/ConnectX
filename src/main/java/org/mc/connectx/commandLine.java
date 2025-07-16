@@ -1,6 +1,5 @@
 package org.mc.connectx;
 
-import org.mc.connectx.Entities.User;
 import org.mc.connectx.Repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -17,11 +16,12 @@ public class commandLine implements CommandLineRunner {
     private PasswordEncoder passwordEncoder;
     @Override
     public void run(String... args) throws Exception {
-        User user = new User();
-        user.setUsername("Mahesh");
-        user.setPassword(passwordEncoder.encode("123123"));
-        user.setRole("USER");
-        userRepo.save(user);
-
+//        User user = new User();
+//        user.setUsername("Mahesh");
+//        user.setPassword(passwordEncoder.encode("123123"));
+//        user.setRole("USER");
+//        userRepo.save(user);
+//
+//    }
     }
 }

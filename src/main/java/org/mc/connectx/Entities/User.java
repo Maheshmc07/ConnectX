@@ -28,10 +28,13 @@ public class User implements UserDetails {
     public String username;
 
     public String email;
+
     public String password;
     public String phoneNo;
     public String bio;
     public String role;
+    public boolean PrivateACC;
+
 
 
     @JsonIgnore
@@ -80,4 +83,7 @@ public class User implements UserDetails {
     }
 
 
+    public boolean getPrivateACC() {
+        return PrivateACC;
+    }
 }

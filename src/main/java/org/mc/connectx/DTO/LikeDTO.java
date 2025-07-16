@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class LikeDTO {
     private Long id;
-    private User2DTO user;
+    private UserDTO user;
     private PostDTO post;
 }
