@@ -20,9 +20,9 @@ public class Post {
     @ManyToOne
     public User user;
 
-    private String content;
-    public String image;
-    public String video;
+    public String posttype;
+//@Lob
+// private String mediaurl;
 
 
     @OneToMany(mappedBy = "post",cascade = CascadeType.ALL)

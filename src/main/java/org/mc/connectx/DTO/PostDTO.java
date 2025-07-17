@@ -12,7 +12,7 @@ public class PostDTO {
     public String image;
     public String video;
     public boolean isLiked;
-    private UserDTO user;
+    private UserDTO owner;
     private LocalDateTime createdAt;
     private int totalLikes;
     private int totalreShared;

@@ -1,5 +1,7 @@
 package org.mc.connectx.service;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import org.mc.connectx.DTO.PostDTO;
 import org.mc.connectx.Entities.Post;
 import org.mc.connectx.Entities.User;
@@ -7,16 +9,21 @@ import org.mc.connectx.Exception.PostException;
 import org.mc.connectx.Repositories.Postrepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
 public class PostService {
-
     @Autowired
     private Postrepo postrepo;
+
+    @Autowired
+    public Cloudinary cloudinary;
 
     // Create new Post
     public Post createPost(Post post, User user) {
@@ -76,4 +83,35 @@ public class PostService {
     // Total posts by user
     public Long countPostsByUserId(Long userId) {
         return postrepo.countByUser_Id(userId);
-    }}
+    }
+
+
+
+    public Map upload(MultipartFile file)  {
+
+
+        Map options = ObjectUtils.asMap(
+                "resource_type", "auto" // handles image, video, pdf automatically
+        );
+        try {
+            return  cloudinary.uploader().upload(file.getBytes(),options);
+        } catch (IOException e) {
+            throw new RuntimeException("Error uploading file");
+        }
+
+
+    }
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
