@@ -21,26 +21,34 @@ public class Post {
     public User user;
 
     public String posttype;
-//@Lob
-// private String mediaurl;
+    @Lob
+     private String mediaurl;
 
 
-    @OneToMany(mappedBy = "post",cascade = CascadeType.ALL)
+    private String caption;
+
+
+    @OneToMany(mappedBy = "post",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+
     private List<Like> Likes=new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<User> reShared=new ArrayList<>();
 
    private boolean isShared;
    private boolean isPost;
 
 
+
+
+
     private LocalDateTime postedAt;
 
 
-
-
-
-
-
+    public boolean getisShared() {
+        return isShared;
+    }
+    public boolean getisPost() {
+        return isPost;
+    }
 }

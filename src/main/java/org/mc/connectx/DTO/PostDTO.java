@@ -8,15 +8,16 @@ import java.util.List;
 @Data
 public class PostDTO {
     private Long id;
-    private String content;
-    public String image;
-    public String video;
+    public String posttype;
+    public String mediaUrl;
+    public String caption;
+
     public boolean isLiked;
     private UserDTO owner;
     private LocalDateTime createdAt;
     private int totalLikes;
     private int totalreShared;
-    private boolean isShared;
+    private boolean shared;
     private List<Long> reSharedUserIds;
 
 }

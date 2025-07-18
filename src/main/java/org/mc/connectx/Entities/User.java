@@ -33,7 +33,7 @@ public class User implements UserDetails {
     public String phoneNo;
     public String bio;
     public String role;
-    public boolean PrivateACC;
+    public boolean privateACC;
 
 
 
@@ -47,7 +47,7 @@ public class User implements UserDetails {
 
     public List<Like> likes=new ArrayList<>();
     @JsonIgnore
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     List <User> followers=new ArrayList<>();
     @JsonIgnore
     @ManyToMany
@@ -83,7 +83,5 @@ public class User implements UserDetails {
     }
 
 
-    public boolean getPrivateACC() {
-        return PrivateACC;
-    }
+
 }

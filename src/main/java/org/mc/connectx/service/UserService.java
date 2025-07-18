@@ -1,8 +1,10 @@
 package org.mc.connectx.service;
 
 import jakarta.transaction.Transactional;
+import org.mc.connectx.DTO.PostDTO;
 import org.mc.connectx.DTO.UserBasicDetails;
 import org.mc.connectx.DTO.UserDTO;
+import org.mc.connectx.Entities.Post;
 import org.mc.connectx.Entities.User;
 import org.mc.connectx.Exception.UserException;
 import org.mc.connectx.Repositories.UserRepo;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mc.connectx.DTO.MappersDTO.PostMapper.convertPostToPostDTO;
 import static org.mc.connectx.DTO.MappersDTO.UserDToMapper.toUser2DTO;
 
 @Service
@@ -24,7 +27,7 @@ public class UserService {
 
 
 
-@Autowired
+    @Autowired
     private UserRepo userRepo;
     public User CreateUser(UserBasicDetails userBasicDetails) {
         User user = User.builder()
@@ -102,14 +105,14 @@ return userRepo.save(updateUser);
 
     }
 
-
+@Transactional
     public UserDTO convertUser_UserDTO(User user){
         UserDTO userdto= toUser2DTO(user);
         return userdto;
 
 
     }
-
+@Transactional
     public List<UserDTO> getfollowersbyusername(String username) throws UserException {
         User user=userRepo.findByUsername(username).orElseThrow(()->new UserException("User not found"));
         List<UserDTO> userDTOs=new ArrayList<>();
@@ -119,7 +122,7 @@ return userRepo.save(updateUser);
         }
         return  userDTOs;
     }
-
+@Transactional
     public List<UserDTO> getfollowing(String username) throws UserException {
         User user=userRepo.findByUsername(username).orElseThrow(()->new UserException("User not found"));
         List<UserDTO> userDTOs=new ArrayList<>();
@@ -129,4 +132,44 @@ return userRepo.save(updateUser);
         }
         return  userDTOs;
     }
+
+    public List<PostDTO> getPosts(String username) {
+        List<Post> postlst=userRepo.findPostsByUsernameAndPublic(username);
+
+        List<PostDTO> postDTOs=new ArrayList<>();
+        for(Post post:postlst){
+            postDTOs.add(convertPostToPostDTO(post));
+
+        }
+        return   postDTOs;
+
+    }
+
+    public List<PostDTO> getAllPostofCurrentUser(Long userid){
+
+        List<Post> postlst=userRepo.findAllPostsForFeed(userid);
+        List<PostDTO> postDTOs=new ArrayList<>();
+        for(Post post:postlst){
+            postDTOs.add(convertPostToPostDTO(post));
+        }
+
+        return  postDTOs;
+    }
+
+
+    public boolean MakeAccPrivtateOrPublic(User user) throws UserException {
+        User user1=searchUser(user.getUsername());
+       if(user1.privateACC){
+           user1.setPrivateACC(false);
+           userRepo.save(user1);
+           return false;
+       }
+
+        user1.setPrivateACC(true);
+           userRepo.save(user1);
+           return true;
+
+
+    }
+
 }

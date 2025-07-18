@@ -1,16 +1,23 @@
 package org.mc.connectx.controllers;
 
+import org.mc.connectx.DTO.PostDTO;
 import org.mc.connectx.Entities.Post;
+import org.mc.connectx.Entities.User;
 import org.mc.connectx.Repositories.Postrepo;
 import org.mc.connectx.service.PostService;
 import org.mc.connectx.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static org.mc.connectx.DTO.MappersDTO.PostMapper.convertPostToPostDTO;
 
 @RestController
 @RequestMapping("/v1")
@@ -24,20 +31,55 @@ public class PostController {
     private Postrepo postrepo;
 
 
-    @GetMapping("/GetAllPosts")
-    public ResponseEntity<?> getAllPosts(){
-       List<Post> posts= postService.findAllPosts();
-       return ResponseEntity.ok(posts);
 
-    }
 
     @PostMapping("/uploadFile")
     public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file){
         Map map=postService.upload(file);
+        System.out.println(map.get("url"));
 
         return ResponseEntity.ok(map);
 
     }
+    @GetMapping("/getAllpostOfCurrentUser")
+    public ResponseEntity<List<PostDTO>> getAllPostsOfCurrentUser(@AuthenticationPrincipal User user){
 
+List<PostDTO> postDTOS=userService.getAllPostofCurrentUser(user.getId());
+
+return new ResponseEntity<List<PostDTO>>(postDTOS,HttpStatus.OK);
+
+    }
+
+
+    @GetMapping("/GetAlltheLatestPosts")
+    public ResponseEntity<List<PostDTO>> getAllTheLatestPosts(){
+        List<PostDTO> lst=postService.getAllPosts();
+        return  new ResponseEntity<>( lst,HttpStatus.OK);
+
+    }
+
+
+
+
+
+
+
+    @PostMapping("/addPost")
+    public ResponseEntity<PostDTO> createPost(
+            @RequestParam(value = "file", required = false) MultipartFile file,
+            @RequestParam(value = "caption", required = false) String caption,
+            @AuthenticationPrincipal User user) {
+
+        Map map = new HashMap<>();
+
+        if (file != null && !file.isEmpty()) {
+            map = postService.upload(file);
+        }
+
+        Post newPost = postService.createPost(map, caption, user);
+        PostDTO postDTO = convertPostToPostDTO(newPost);
+
+        return new ResponseEntity<>(postDTO, HttpStatus.CREATED);
+    }
 
 }
