@@ -15,7 +15,7 @@ public class PostMapper {
         postDTO.setPosttype(post.getPosttype());
         postDTO.setShared(post.getisShared());
         postDTO.setOwner(toUser2DTO(post.getUser()));
-        postDTO.setTotalLikes(post.getLikes() != null ? post.getLikes().size() : 0);
+        postDTO.setTotalLikes(post.getLikeEntities() != null ? post.getLikeEntities().size() : 0);
         postDTO.setTotalreShared(post.getReShared() != null ? post.getReShared().size() : 0);
         postDTO.setCaption(post.getCaption());
         postDTO.setCreatedAt(post.getPostedAt());

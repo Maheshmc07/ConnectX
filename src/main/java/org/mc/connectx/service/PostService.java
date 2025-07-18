@@ -78,9 +78,12 @@ public class PostService {
         return postDTOs;
     }
 
+    public PostDTO postbyid(Long id) {
+        Post post = postrepo.findPostById(id);
+        return convertPostToPostDTO(post);
 
 
-
+    }
 
 }
 

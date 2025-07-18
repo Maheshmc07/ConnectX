@@ -31,4 +31,9 @@ public interface UserRepo extends JpaRepository<User,Long> {
     List<Post> findAllPostsForFeed(@Param("currentUserId") Long currentUserId);
 
 
+//    @Query("SELECT new com.yourpkg.LikeResponseDTO(u.id, u.username, l.type, l.likedAt) " +
+//            "FROM LikeEntity l JOIN l.user u WHERE l.post.id = :postId")
+//    List<LikeDTO> findLikesByPostId(@Param("postId") Long postId);
+
+
 }

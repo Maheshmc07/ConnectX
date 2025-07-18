@@ -17,7 +17,8 @@ public class UserDTO {
     public String bio;
     public long totalnoposts;
     public long followersCount;
-    public long FollowingCount;
+
+    public long followingCount;
     @JsonIgnore
     List<UserDTO> followers =new ArrayList<>();
 @JsonIgnore

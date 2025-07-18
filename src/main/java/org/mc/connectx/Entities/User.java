@@ -38,19 +38,19 @@ public class User implements UserDetails {
 
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     public List<Post> posts= new ArrayList<>();
 
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 
-    public List<Like> likes=new ArrayList<>();
+    public List<LikeEntity> likeEntities =new ArrayList<>();
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     List <User> followers=new ArrayList<>();
     @JsonIgnore
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     List<User> following=new ArrayList<>();
 
 

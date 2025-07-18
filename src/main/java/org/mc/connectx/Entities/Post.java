@@ -28,11 +28,10 @@ public class Post {
     private String caption;
 
 
-    @OneToMany(mappedBy = "post",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "post",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<LikeEntity> likeEntities =new ArrayList<>();
 
-    private List<Like> Likes=new ArrayList<>();
-
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<User> reShared=new ArrayList<>();
 
    private boolean isShared;

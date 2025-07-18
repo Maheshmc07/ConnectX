@@ -37,6 +37,7 @@ public interface Postrepo extends JpaRepository<Post, Long> {
 //
   Post findPostById(long postId);
 
+
   @Query("SELECT p FROM Post p WHERE p.user.privateACC = false ORDER BY p.postedAt DESC")
   List<Post> findAllPublicPostsOrderByLatest();
 

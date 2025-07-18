@@ -32,6 +32,13 @@ public class PostController {
 
 
 
+    @GetMapping("/getPostByID/{id}")
+    public ResponseEntity<PostDTO> getPostByID(@PathVariable("id") Long id){
+       PostDTO postDTO= postService.postbyid(id);
+       return ResponseEntity.ok(postDTO);
+    }
+
+
 
     @PostMapping("/uploadFile")
     public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file){
