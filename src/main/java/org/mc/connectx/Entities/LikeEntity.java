@@ -13,7 +13,7 @@ public class LikeEntity {
 
     @Id
     @GeneratedValue
-    public Long id;
+    private  Long id;
     @ManyToOne
     public User user;
 

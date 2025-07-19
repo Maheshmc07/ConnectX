@@ -1,11 +1,13 @@
 package org.mc.connectx.controllers;
 
 import org.mc.connectx.DTO.PostDTO;
+import org.mc.connectx.DTO.ReportDTO;
 import org.mc.connectx.DTO.UserDTO;
 import org.mc.connectx.Entities.User;
 import org.mc.connectx.Exception.UserException;
 import org.mc.connectx.Repositories.UserRepo;
 import org.mc.connectx.Utils.ApiResponse;
+import org.mc.connectx.service.ReportService;
 import org.mc.connectx.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,9 @@ public class UserController {
     private UserService userService;
     @Autowired
     private UserRepo userRepo;
+
+    @Autowired
+    private ReportService  reportService;
 
 
     @GetMapping("/print")
@@ -91,6 +96,27 @@ public ResponseEntity<List<UserDTO>> getfollowing(@PathVariable String username)
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //REPORT METHODS
+
+    @PostMapping("/reportPostByid/{id}")
+    public ResponseEntity<ApiResponse> reportPostByid(@PathVariable("id")  long id, @AuthenticationPrincipal User user, @RequestBody ReportDTO reportDTO) throws UserException {
+
+        reportService.reportapost(id,user,reportDTO);
+        return  new ResponseEntity<>(ApiResponse.builder().message("Your Report has been created successfully").build(), HttpStatus.OK);
+    }
 
 
 

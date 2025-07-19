@@ -28,6 +28,11 @@ public class Post {
     private String caption;
 
 
+
+    @OneToMany(mappedBy = "post",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<ReportEnity> reportEnities;
+
+
     @OneToMany(mappedBy = "post",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<LikeEntity> likeEntities =new ArrayList<>();
 

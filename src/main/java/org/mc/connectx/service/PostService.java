@@ -85,6 +85,18 @@ public class PostService {
 
     }
 
+
+    public boolean DeletePost(Long id) {
+        Post post = postrepo.findPostById(id);
+        if(post!=null){
+            postrepo.deleteById(id);
+            return  true;
+        }
+
+
+        return false;
+    }
+
 }
 
 
