@@ -16,12 +16,7 @@ public class commandLine implements CommandLineRunner {
     private PasswordEncoder passwordEncoder;
     @Override
     public void run(String... args) throws Exception {
-//        User user = new User();
-//        user.setUsername("Mahesh");
-//        user.setPassword(passwordEncoder.encode("123123"));
-//        user.setRole("USER");
-//        userRepo.save(user);
-//
-//    }
+
+
     }
 }

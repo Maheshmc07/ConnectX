@@ -3,13 +3,13 @@ package org.mc.connectx.Entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.mc.connectx.AllEnums.Permissions;
+import org.mc.connectx.AllEnums.Roles;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Getter
@@ -32,7 +32,8 @@ public class User implements UserDetails {
     public String password;
     public String phoneNo;
     public String bio;
-    public String role;
+    @Enumerated(EnumType.STRING)
+    public Roles role;
     public boolean privateACC;
 
 
@@ -57,7 +58,14 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role));
+        Set<SimpleGrantedAuthority> authorities = new HashSet<>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_"+role.name()));
+
+        for(Permissions permission : role.getPermissionSet()){
+            authorities.add(new SimpleGrantedAuthority(permission.name()));
+        }
+
+        return authorities;
     }
 
 

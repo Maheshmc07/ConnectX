@@ -9,6 +9,7 @@ import org.mc.connectx.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,6 +23,7 @@ public class AdminController {
 
 
     @PostMapping("/adduser")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse> addUser(@RequestBody UserBasicDetails user) throws AdminException {
 
         if(!user.getEmail().endsWith("@connectx.com")){
@@ -35,6 +37,7 @@ return new ResponseEntity<>(ApiResponse.builder().message("New admin has been ad
     }
 
     @PostMapping("/BulkAdd")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?>  importUser(@RequestParam("file")MultipartFile file) throws AdminException, IOException, CsvException {
 
         String filename = file.getOriginalFilename();

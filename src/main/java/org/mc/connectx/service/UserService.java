@@ -1,6 +1,7 @@
 package org.mc.connectx.service;
 
 import jakarta.transaction.Transactional;
+import org.mc.connectx.AllEnums.Roles;
 import org.mc.connectx.DTO.PostDTO;
 import org.mc.connectx.DTO.UserBasicDetails;
 import org.mc.connectx.DTO.UserDTO;
@@ -34,7 +35,7 @@ public class UserService {
                 .fullName(userBasicDetails.getFullName())
                 .username(userBasicDetails.getUsername())
                 .password(passwordEncoder.encode(userBasicDetails.getPassword()))
-                .role("USER")
+                .role(Roles.USER)
                 .bio(userBasicDetails.getBio())
                 .phoneNo(userBasicDetails.getPhoneNo())
                 .email(userBasicDetails.getEmail())

@@ -5,6 +5,7 @@ import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvException;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.mc.connectx.AllEnums.Roles;
 import org.mc.connectx.DTO.UserBasicDetails;
 import org.mc.connectx.Entities.User;
 import org.mc.connectx.Exception.AdminException;
@@ -36,7 +37,7 @@ public class AdminService {
                 .fullName(userBasicDetails.getFullName())
                 .username(userBasicDetails.getUsername())
                 .password(passwordEncoder.encode(userBasicDetails.getPassword()))
-                .role("ADMIN")
+                .role(Roles.ADMIN)
                 .bio(userBasicDetails.getBio())
                 .phoneNo(userBasicDetails.getPhoneNo())
                 .email(userBasicDetails.getEmail())
