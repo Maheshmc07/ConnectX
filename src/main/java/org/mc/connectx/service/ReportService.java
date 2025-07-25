@@ -1,5 +1,6 @@
 package org.mc.connectx.service;
 
+import jakarta.transaction.Transactional;
 import org.mc.connectx.AllEnums.ReportType;
 import org.mc.connectx.DTO.ReportDTO;
 import org.mc.connectx.Entities.Post;
@@ -10,6 +11,9 @@ import org.mc.connectx.Repositories.Postrepo;
 import org.mc.connectx.Repositories.ReportRepo;
 import org.mc.connectx.Repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,6 +22,7 @@ import java.util.List;
 import static org.mc.connectx.DTO.MappersDTO.ReportMapper.ReportEntityToReportDTO;
 
 @Service
+@Transactional
 public class ReportService  {
 
 
@@ -28,7 +33,7 @@ public class ReportService  {
 
     @Autowired
     private Postrepo postrepo;
-
+@Transactional
     public void reportapost(Long  id, User user, ReportDTO reportDTO) {
         Post post =postrepo.findPostById(id);
         ReportEnity reportEnity = new ReportEnity();
@@ -36,17 +41,15 @@ public class ReportService  {
         reportEnity.setPost(post);
         reportEnity.setReportType(ReportType.valueOf(reportDTO.getReportType()));
         reportRepo.save(reportEnity);
-        post.getReportEnities().add(reportEnity);
-        user.getReportEnities().add(reportEnity);
-        postrepo.save(post);
-        userRepo.save(user);
+
+
         return;
 
 
     }
 
-    public List<ReportDTO> getAllReports() throws AdminException {
-       List<ReportEnity> reportEnityList=reportRepo.findAll();
+    public List<ReportDTO> getAllReports(int pageno,int pagesize) throws AdminException {
+       Page<ReportEnity> reportEnityList= reportRepo.findAll(PageRequest.of(pageno, pagesize, Sort.by("reportedAt").ascending()));
        List<ReportDTO> reportDTOList=new ArrayList<>();
        for(ReportEnity reportEnity:reportEnityList){
            reportDTOList.add(ReportEntityToReportDTO(reportEnity));

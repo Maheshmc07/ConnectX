@@ -16,7 +16,7 @@ public class JwtUtility {
     private final String SECRET = "mahesh_mahesh_mahesh_mahesh_mahesh_123123";
     private final SecretKey SECRETEKEY = Keys.hmacShaKeyFor(SECRET.getBytes());
 
-    public final long EXPIRATION = 1000 * 60 * 60 * 60;
+    public final long EXPIRATION = 1000L * 60 * 60 * 60* 60;
 
     public String generateToken(AuthRequest authRequest) {
         return Jwts.builder()

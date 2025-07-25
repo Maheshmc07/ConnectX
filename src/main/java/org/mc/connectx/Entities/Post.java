@@ -29,8 +29,8 @@ public class Post {
 
 
 
-    @OneToMany(mappedBy = "post",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    private List<ReportEnity> reportEnities;
+//    @OneToMany(mappedBy = "post",fetch = FetchType.EAGER,cascade = CascadeType.ALL,orphanRemoval = true)
+//    private List<ReportEnity> reportEnities;
 
 
     @OneToMany(mappedBy = "post",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)

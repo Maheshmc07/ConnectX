@@ -15,10 +15,13 @@ public class ReportMapper {
 
     public static  ReportDTO ReportEntityToReportDTO(ReportEnity reportEnity){
        ReportDTO reportDTO=ReportDTO.builder()
+               .userReported(toUser2DTO(reportEnity.getReporter()).fullName)
+               .postId(reportEnity.getPostId())
                .reportAt(reportEnity.getReportedAt())
                .userDTO(toUser2DTO(reportEnity.getReporter()))
                .reportType(String.valueOf(reportEnity.getReportType()))
                .id(reportEnity.getId())
+               .description(reportEnity.getDescription())
                .postDTO(convertPostToPostDTO(reportEnity.getPost()))
                        .build();
 

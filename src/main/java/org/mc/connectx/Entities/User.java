@@ -35,11 +35,10 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     public Roles role;
     public boolean privateACC;
-    @OneToMany(mappedBy = "reporter",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    private List<ReportEnity> reportEnities;
+
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER, cascade = CascadeType.ALL,orphanRemoval = true)
     public List<Post> posts= new ArrayList<>();
 
 

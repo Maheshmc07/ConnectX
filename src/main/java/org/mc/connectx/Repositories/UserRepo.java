@@ -19,6 +19,10 @@ public interface UserRepo extends JpaRepository<User,Long> {
     public Optional<User> findByUsername(String name);
 
 
+
+
+
+
     @Query("SELECT u FROM User u WHERE u.username LIKE %:value% OR u.email LIKE %:value%")
     Optional<User> searchUser(@Param("value") String value) throws UserException;
 

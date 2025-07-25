@@ -1,5 +1,6 @@
 package org.mc.connectx.service;
 
+import org.mc.connectx.AllEnums.ReactionType;
 import org.mc.connectx.DTO.LikeDTO;
 import org.mc.connectx.DTO.UserDTO;
 import org.mc.connectx.Entities.LikeEntity;
@@ -28,7 +29,7 @@ public class LikeService {
     private Postrepo postrepo;
 
 
-    public boolean likepost(User user, long postId, LikeEntity like) {
+    public boolean likepost(User user, long postId, LikeDTO like) {
 
         Optional<LikeEntity> isLikeExist=likerepo.findByUserAndPostId(user,postId);
         if(isLikeExist.isPresent()){
@@ -45,7 +46,7 @@ public class LikeService {
         }
         Post post =postservice.findPostById(postId);
         LikeEntity likeEntity =new LikeEntity();
-        likeEntity.setReactionType(like.getReactionType());
+        likeEntity.setReactionType(ReactionType.valueOf(like.getReactionType()));
         likeEntity.setPost(post);
         likeEntity.setUser(user);
         likerepo.save(likeEntity);

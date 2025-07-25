@@ -3,10 +3,13 @@ package org.mc.connectx.service;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import jakarta.transaction.Transactional;
+import org.mc.connectx.AllEnums.Roles;
 import org.mc.connectx.DTO.PostDTO;
 import org.mc.connectx.Entities.Post;
 import org.mc.connectx.Entities.User;
+import org.mc.connectx.Exception.UserException;
 import org.mc.connectx.Repositories.Postrepo;
+import org.mc.connectx.Repositories.ReportRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +20,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static org.mc.connectx.DTO.MappersDTO.PostMapper.convertPostToPostDTO;
 
@@ -25,6 +29,8 @@ import static org.mc.connectx.DTO.MappersDTO.PostMapper.convertPostToPostDTO;
 public class PostService {
     @Autowired
     private Postrepo postrepo;
+    @Autowired
+    private ReportRepo  reportrepo;
 
     @Autowired
     public Cloudinary cloudinary;
@@ -86,16 +92,35 @@ public class PostService {
     }
 
 
-    public boolean DeletePost(Long id) {
-        Post post = postrepo.findPostById(id);
-        if(post!=null){
-            postrepo.deleteById(id);
-            return  true;
+    @Transactional
+    public boolean deletePost(Long id,User currentUser) throws UserException {
+        System.out.println("Attempting to delete post with ID: " + id); // or use logger
+        Optional<Post> postOptional = postrepo.findById(id);
+        if (postOptional.isPresent()) {
+
+
+            Post post = postOptional.get();
+          if(currentUser.getRole()==Roles.ADMIN||post.getUser().getId()==currentUser.getId()){
+
+
+
+            if(reportrepo.countByPostId(id)>0) {
+            reportrepo.deleteByPostId(id);}
+
+            postrepo.deletePostByIdCustom(id);
+            System.out.println("Deleted post ID: " + id);}
+          else{
+               throw  new UserException("This post is not created by U");
+          }
+            return true;
+        } else {
+            System.out.println("Post not found for ID: " + id);
         }
-
-
         return false;
     }
+
+
+
 
 }
 

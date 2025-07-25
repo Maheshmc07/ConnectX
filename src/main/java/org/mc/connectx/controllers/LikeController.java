@@ -2,7 +2,6 @@ package org.mc.connectx.controllers;
 
 import org.mc.connectx.DTO.LikeDTO;
 import org.mc.connectx.DTO.UserDTO;
-import org.mc.connectx.Entities.LikeEntity;
 import org.mc.connectx.Entities.User;
 import org.mc.connectx.Utils.ApiResponse;
 import org.mc.connectx.service.LikeService;
@@ -24,7 +23,7 @@ public class LikeController {
 
 
     @PostMapping("/addLiketoPost/{id}")
-    public ResponseEntity<ApiResponse> addLike(@PathVariable("id") Long id, @RequestBody LikeEntity like, @AuthenticationPrincipal User userDetaiils){
+    public ResponseEntity<ApiResponse> addLike(@PathVariable("id") Long id, @RequestBody LikeDTO like, @AuthenticationPrincipal User userDetaiils){
         boolean flag=likeService.likepost(userDetaiils,id,like);
         ApiResponse apiResponse=ApiResponse.builder().
                 message(flag?"you liked the post":"you disliked the post" ).status(true).build();

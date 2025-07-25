@@ -18,5 +18,13 @@ public class commandLine implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
 
+//        User user=new User();
+//        user.setUsername("admin");
+//        user.setPassword(passwordEncoder.encode("admin"));
+//        user.setRole(Roles.valueOf("ADMIN"));
+//        userRepo.save(user);
+
+
+
     }
 }

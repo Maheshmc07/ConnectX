@@ -4,7 +4,9 @@ package org.mc.connectx.controllers;
 import com.opencsv.exceptions.CsvException;
 import org.mc.connectx.DTO.ReportDTO;
 import org.mc.connectx.DTO.UserBasicDetails;
+import org.mc.connectx.Entities.User;
 import org.mc.connectx.Exception.AdminException;
+import org.mc.connectx.Exception.UserException;
 import org.mc.connectx.Utils.ApiResponse;
 import org.mc.connectx.service.AdminService;
 import org.mc.connectx.service.PostService;
@@ -13,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -66,21 +69,23 @@ return new ResponseEntity<>(ApiResponse.builder().message("New admin has been ad
 
     @GetMapping("/GetAllAvailableReports")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<ReportDTO>> getAllAvailableReports() throws AdminException {
-       List<ReportDTO> reportDTOS= reportService.getAllReports();
+    public ResponseEntity<List<ReportDTO>> getAllAvailableReports(@RequestParam("pageno") int pageno,@RequestParam("pagesize") int pagesize) throws AdminException {
+       List<ReportDTO> reportDTOS= reportService.getAllReports(pageno,pagesize);
        return  new ResponseEntity<>(reportDTOS,HttpStatus.OK);
 
     }
 
-    @DeleteMapping("/admin/DeletePost/{id}")
+    @DeleteMapping(value = "/deletePost/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> deletePost(@PathVariable("id") Long id) {
-
-        boolean flag=postService.DeletePost(id);
-
-        return  new ResponseEntity<>(ApiResponse.builder().message(flag?"Post has been deleted By ADMIN ":"Something went wrong ").
-                status(flag),HttpStatus.OK);
-
+    public ResponseEntity<ApiResponse> deletePost(@PathVariable("id") Long id, @AuthenticationPrincipal User user) throws UserException {
+        boolean flag = postService.deletePost(id,user);
+        return ResponseEntity.ok(
+                ApiResponse.builder()
+                        .message(flag ? "Post has been deleted By ADMIN" : "Something went wrong")
+                        .status(flag)
+                        .build()
+        );
     }
+
 
 }

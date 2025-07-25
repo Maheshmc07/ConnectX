@@ -21,11 +21,19 @@ public class ReportEnity {
     private UUID id;
     @Enumerated(EnumType.STRING)
     private ReportType reportType;
-    @ManyToOne
-    public Post post;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id", nullable = false)
+    private Post post;
+
+    // Helper method to get just the ID
+    public Long getPostId() {
+        return post != null ? post.getId() : null;
+    }
 
     @ManyToOne
     public User reporter;
+
+    public String description;
 
 
 

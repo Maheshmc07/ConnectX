@@ -21,7 +21,9 @@ public class LikeEntity {
     public ReactionType reactionType;
 
     @ManyToOne
-    public Post post;
+    @JoinColumn(name = "post_id", nullable = false)
+    private Post post;
+
 
     private LocalDateTime likedAt;
 
