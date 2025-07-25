@@ -21,6 +21,7 @@ import java.util.*;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
+
     private Long id;
 
     public String fullName;
@@ -35,6 +36,9 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     public Roles role;
     public boolean privateACC;
+
+    @ManyToMany(mappedBy = "members")
+    private Set<Groups> groups = new HashSet<>();
 
 
     @JsonIgnore
