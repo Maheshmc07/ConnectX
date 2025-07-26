@@ -17,7 +17,7 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(uniqueConstraints =  @UniqueConstraint(columnNames={"username"}))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"username"}))
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
@@ -40,37 +40,38 @@ public class User implements UserDetails {
     @ManyToMany(mappedBy = "members")
     private Set<Groups> groups = new HashSet<>();
 
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER, cascade = CascadeType.ALL,orphanRemoval = true)
-    public List<Post> posts= new ArrayList<>();
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<FriendRequest> friendRequests;
 
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    public List<Post> posts = new ArrayList<>();
 
-    public List<LikeEntity> likeEntities =new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+
+    public List<LikeEntity> likeEntities = new ArrayList<>();
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
-    List <User> followers=new ArrayList<>();
+    List<User> followers = new ArrayList<>();
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
-    List<User> following=new ArrayList<>();
-
+    List<User> following = new ArrayList<>();
 
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_"+role.name()));
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + role.name()));
 
-        for(Permissions permission : role.getPermissionSet()){
+        for (Permissions permission : role.getPermissionSet()) {
             authorities.add(new SimpleGrantedAuthority(permission.name()));
         }
 
         return authorities;
     }
-
 
 
     @Override
@@ -92,7 +93,6 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return UserDetails.super.isEnabled();
     }
-
 
 
 }

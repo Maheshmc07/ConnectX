@@ -8,10 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Data
@@ -49,7 +46,8 @@ public class Groups {
     )
     private Set<User> members = new HashSet<>();
 
-
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
+    private List<GroupJoiningRequest> joinRequests = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Messages> messages;

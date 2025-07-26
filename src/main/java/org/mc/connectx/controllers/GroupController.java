@@ -2,6 +2,7 @@ package org.mc.connectx.controllers;
 
 
 import org.mc.connectx.DTO.GroupDTO;
+import org.mc.connectx.DTO.GroupJoiningRequestDTO;
 import org.mc.connectx.Entities.User;
 import org.mc.connectx.Repositories.GroupRepo;
 import org.mc.connectx.Utils.ApiResponse;
@@ -81,6 +82,26 @@ public class GroupController {
     public ResponseEntity<List<GroupDTO>> getAllTheGroups(@AuthenticationPrincipal User userPrincipal) {
        List<GroupDTO>  groupDTOS = groupsService.findAllGroups();
        return ResponseEntity.ok(groupDTOS);
+    }
+
+
+
+
+    @GetMapping("/GetAllGroupsNewRequests/{id}")
+    public ResponseEntity<List<GroupJoiningRequestDTO>> getAllGroupsNewRequests(@PathVariable("id") UUID id) {
+
+
+        return ResponseEntity.ok(groupsService.getAllRequestsofGroup(id));
+
+    }
+
+
+
+    @PostMapping("/AcceptOrReject")
+    public ResponseEntity<ApiResponse> acceptOrReject(@RequestBody GroupJoiningRequestDTO groupJoiningRequestDTO, @AuthenticationPrincipal User userPrincipal) {
+        ApiResponse apiResponse=groupsService.AcceptOrReject(groupJoiningRequestDTO, userPrincipal);
+
+        return ResponseEntity.ok(apiResponse);
     }
 
 
