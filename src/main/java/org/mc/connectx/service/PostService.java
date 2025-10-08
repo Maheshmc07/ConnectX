@@ -2,8 +2,11 @@ package org.mc.connectx.service;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
+import org.mapstruct.factory.Mappers;
 import org.mc.connectx.AllEnums.Roles;
+import org.mc.connectx.DTO.MapperByMapstruct.PostAutoMapper;
 import org.mc.connectx.DTO.PostDTO;
 import org.mc.connectx.Entities.Post;
 import org.mc.connectx.Entities.User;
@@ -73,12 +76,23 @@ public class PostService {
 
     }
 
-    public List<PostDTO> getAllPosts(){
+    @Autowired
+    private ObjectMapper objectMapper;
+
+
+    private PostAutoMapper postAutoMapper= Mappers.getMapper(PostAutoMapper.class);
+
+
+    public List<PostDTO> getAllPosts() throws IOException {
         List<Post> posts=postrepo.findAllPublicPostsOrderByLatest();
         List<PostDTO> postDTOs=new ArrayList<>();
 
         for(Post post:posts){
-            postDTOs.add(convertPostToPostDTO(post));
+            //postDTOs.add(objectMapper.readValue((DataInput) post,PostDTO.class));
+
+            //postDTOs.add(convertPostToPostDTO(post));
+
+            postDTOs.add(postAutoMapper.postToPostDTO(post));
 
         }
         return postDTOs;
@@ -120,8 +134,13 @@ public class PostService {
     }
 
 
+    public PostAutoMapper getPostAutoMapper() {
+        return postAutoMapper;
+    }
 
-
+    public void setPostAutoMapper(PostAutoMapper postAutoMapper) {
+        this.postAutoMapper = postAutoMapper;
+    }
 }
 
 

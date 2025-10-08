@@ -1,7 +1,9 @@
 package org.mc.connectx.service;
 
 import jakarta.transaction.Transactional;
+import org.mapstruct.factory.Mappers;
 import org.mc.connectx.AllEnums.Roles;
+import org.mc.connectx.DTO.MapperByMapstruct.PostAutoMapper;
 import org.mc.connectx.DTO.PostDTO;
 import org.mc.connectx.DTO.UserBasicDetails;
 import org.mc.connectx.DTO.UserDTO;
@@ -24,6 +26,10 @@ import static org.mc.connectx.DTO.MappersDTO.UserDToMapper.toUser2DTO;
 public class UserService {
     @Autowired
     public PasswordEncoder passwordEncoder;
+
+
+
+    private PostAutoMapper postAutoMapper= Mappers.getMapper(PostAutoMapper.class);
 
 
 
@@ -137,11 +143,13 @@ return userRepo.save(updateUser);
     public List<PostDTO> getPosts(String username) {
         List<Post> postlst=userRepo.findPostsByUsernameAndPublic(username);
 
+//        List<PostDTO> postDTOs=new ArrayList<>();
+//        for(Post post:postlst){
+//            postDTOs.add(convertPostToPostDTO(post));
+//
+//        }
         List<PostDTO> postDTOs=new ArrayList<>();
-        for(Post post:postlst){
-            postDTOs.add(convertPostToPostDTO(post));
-
-        }
+        postAutoMapper.postToPostDTOList(postlst);
         return   postDTOs;
 
     }

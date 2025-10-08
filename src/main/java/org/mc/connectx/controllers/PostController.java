@@ -15,6 +15,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,7 +62,7 @@ return new ResponseEntity<List<PostDTO>>(postDTOS,HttpStatus.OK);
 
 
     @GetMapping("/GetAlltheLatestPosts")
-    public ResponseEntity<List<PostDTO>> getAllTheLatestPosts(){
+    public ResponseEntity<List<PostDTO>> getAllTheLatestPosts() throws IOException {
         List<PostDTO> lst=postService.getAllPosts();
         return  new ResponseEntity<>( lst,HttpStatus.OK);
 

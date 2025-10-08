@@ -61,6 +61,10 @@ public class User implements UserDetails {
     List<User> following = new ArrayList<>();
 
 
+    @OneToOne(mappedBy = "user")
+    private RefreshTokenEnity refreshToken;
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();

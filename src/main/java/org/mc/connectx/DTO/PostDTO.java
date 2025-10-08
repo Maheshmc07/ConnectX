@@ -10,7 +10,7 @@ public class PostDTO {
     private Long id;
     public String posttype;
     public String mediaUrl;
-    public String caption;
+    public String description;
 
     public boolean isLiked;
     private UserDTO owner;

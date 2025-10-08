@@ -1,5 +1,6 @@
 package org.mc.connectx.controllers;
 
+import lombok.extern.slf4j.Slf4j;
 import org.mc.connectx.DTO.PostDTO;
 import org.mc.connectx.DTO.ReportDTO;
 import org.mc.connectx.DTO.UserDTO;
@@ -20,6 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1")
+@Slf4j
 public class UserController {
     @Autowired
     private UserService userService;
@@ -47,6 +49,7 @@ public class UserController {
     @GetMapping("/GetUserByusername/{username}")
     public ResponseEntity<UserDTO> Getuserbyusername(@PathVariable String username) throws UserException {
 
+        log.debug("work done");
         UserDTO userDTO = userService.convertUser_UserDTO(userService.searchUser(username));
         return new ResponseEntity<UserDTO>(userDTO, HttpStatus.OK);
     }

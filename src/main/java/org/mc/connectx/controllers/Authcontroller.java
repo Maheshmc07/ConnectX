@@ -7,6 +7,7 @@ import org.mc.connectx.DTO.UserDTO;
 import org.mc.connectx.Entities.User;
 import org.mc.connectx.Exception.UserException;
 import org.mc.connectx.JWT.JwtUtility;
+import org.mc.connectx.service.RefreshTokenService;
 import org.mc.connectx.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,6 +37,9 @@ public JwtUtility jwtutil;
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RefreshTokenService refreshTokenService;
+
     @PostMapping("/register")
     public ResponseEntity<UserDTO> register(@RequestBody UserBasicDetails userBasicDetails){
 
@@ -56,6 +60,7 @@ public JwtUtility jwtutil;
 
 
 String Token ="";
+String RefreshToken ="";
 
         try {
             MANAGER.authenticate(new UsernamePasswordAuthenticationToken(
@@ -68,9 +73,12 @@ String Token ="";
 
         }
 
+//        RefreshToken = refreshTokenService.createToken(authRequest.getUsername()).getToken();
         AuthResponse authResponse = new AuthResponse();
         authResponse.setToken(Token);
         authResponse.setStatus(true);
+        authResponse.setRefreshToken(RefreshToken);
+
 
 
 

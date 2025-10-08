@@ -6,6 +6,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 @Entity
 @Builder
 @NoArgsConstructor
@@ -22,28 +23,24 @@ public class Post {
 
     public String posttype;
     @Lob
-     private String mediaurl;
+    private String mediaurl;
 
 
     private String caption;
-
 
 
 //    @OneToMany(mappedBy = "post",fetch = FetchType.EAGER,cascade = CascadeType.ALL,orphanRemoval = true)
 //    private List<ReportEnity> reportEnities;
 
 
-    @OneToMany(mappedBy = "post",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<LikeEntity> likeEntities =new ArrayList<>();
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<LikeEntity> likeEntities = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<User> reShared=new ArrayList<>();
+    private List<User> reShared = new ArrayList<>();
 
-   private boolean isShared;
-   private boolean isPost;
-
-
-
+    private boolean isShared;
+    private boolean isPost;
 
 
     private LocalDateTime postedAt;
@@ -52,6 +49,7 @@ public class Post {
     public boolean getisShared() {
         return isShared;
     }
+
     public boolean getisPost() {
         return isPost;
     }
